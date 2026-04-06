@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Work - weird Fishes</title>
+
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:title" content="our work — weird fishes atelier">
+    <meta property="og:description" content="we design brands that tell stories (and raise millions)">
+    <meta property="og:image" content="https://wfishes.com/og-image.png">
+    <meta property="og:url" content="https://wfishes.com/work">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="our work — weird fishes atelier">
+    <meta name="twitter:description" content="we design brands that tell stories (and raise millions)">
+    <meta name="twitter:image" content="https://wfishes.com/og-image.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.png">
+
+    <link rel="stylesheet" href="styles.css">
+
+    <style>
+        /* ── Hero ─────────────────────────────────────────── */
+        .work-hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #1E1E21;
+            overflow: hidden;
+        }
+
+        .work-hero-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .work-hero-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .work-hero-title {
+            font-family: 'Migra', serif;
+            font-size: 80px;
+            font-weight: 800;
+            font-style: italic;
+            line-height: 1.2;
+            margin: 0;
+            color: #F3EEE2;
+            white-space: nowrap;
+        }
+
+        .work-hero-sub {
+            font-family: 'Helvetica Now', sans-serif;
+            font-size: 20.78px;
+            font-weight: 400;
+            color: #F3EEE2;
+            opacity: 0.9;
+            margin: 0;
+        }
+
+        /* ── Gallery ──────────────────────────────────────── */
+        .gallery-section {
+            background: #1E1E21;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            padding: 40px 32px 80px;
+        }
+
+        .gallery-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 4px;
+            aspect-ratio: 4/3;
+            display: block;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .gallery-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.85;
+            transition: opacity 0.3s ease, transform 0.4s ease;
+            display: block;
+        }
+
+        .gallery-card:hover img {
+            opacity: 1;
+            transform: scale(1.03);
+        }
+
+        .gallery-card-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(30, 30, 33, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 16px 20px 20px;
+            transform: translateY(100%);
+            transition: transform 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .gallery-card:hover .gallery-card-overlay {
+            transform: translateY(0);
+        }
+
+        .gallery-card-name {
+            font-family: 'Migra', serif;
+            font-size: 22px;
+            font-weight: 800;
+            font-style: italic;
+            color: #F3EEE2;
+            margin: 0 0 6px;
+        }
+
+        .gallery-card-desc {
+            font-family: 'Helvetica Now', sans-serif;
+            font-size: 12px;
+            font-weight: 400;
+            color: rgba(243, 238, 226, 0.65);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* ── Shake + toast ────────────────────────────────── */
+        @keyframes card-shake {
+            0%,100% { transform: translateX(0); }
+            15%     { transform: translateX(-7px); }
+            35%     { transform: translateX(7px); }
+            55%     { transform: translateX(-4px); }
+            75%     { transform: translateX(4px); }
+        }
+
+        .gallery-card--shaking {
+            animation: card-shake 0.45s ease;
+        }
+
+        .wf-toast {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%) translateY(16px);
+            background: rgba(30, 30, 33, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(243, 238, 226, 0.1);
+            border-radius: 6px;
+            padding: 10px 20px;
+            font-family: 'Helvetica Now', sans-serif;
+            font-size: 13px;
+            font-weight: 400;
+            color: rgba(243, 238, 226, 0.85);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            z-index: 9999;
+            white-space: nowrap;
+        }
+
+        .wf-toast.is-visible {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* ── Contact section override ─────────────────────── */
+        .contact {
+            background: #1E1E21;
+        }
+
+        /* ── Mobile ───────────────────────────────────────── */
+        @media (max-width: 768px) {
+            .work-hero-title {
+                font-size: 48px;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                padding: 24px 16px 60px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .work-hero-title {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-left">
+            <a href="index.html">
+                <img src="wflogo.svg" alt="weird fishes design atelier" class="logo">
+            </a>
+        </div>
+
+        <div class="navbar-right">
+            <a href="work.html">work</a>
+            <a href="https://www.figma.com/deck/zrN2avm5zlgvEiSBheK5Ih" target="_blank">deck</a>
+            <a href="404.html">merch</a>
+            <a href="#contact">contact</a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="work-hero">
+        <div data-us-project="hFymEJ2xqgTWlpLyuVSs" class="work-hero-animation"></div>
+        <div class="work-hero-content">
+            <h1 class="work-hero-title">projects we've cooked</h1>
+            <p class="work-hero-sub">hope they hook your attention</p>
+        </div>
+    </section>
+
+    <!-- Gallery -->
+    <main class="gallery-section">
+        <div class="gallery-grid" id="gallery-grid"></div>
+    </main>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="contact-wrapper">
+            <div class="contact-content">
+                <p class="contact-intro fade-in">we love to build nice stuff for great founders. feel free to say hi at</p>
+                <a href="mailto:joao@wfishes.com" class="contact-email fade-in fade-in-delay">joao@wfishes.com</a>
+                <p class="contact-playlist fade-in fade-in-delay-2">or maybe just listen to our work playlist <a href="https://www.youtube.com/playlist?list=PLyPHCY9Y3oG-aArP13BmVbSfp1ubJ32hb" class="playlist-link" target="_blank" rel="noopener noreferrer">here</a></p>
+            </div>
+
+            <!-- Footer -->
+            <footer class="footer">
+                <div class="footer-content">
+                    <div class="footer-left">
+                        <p class="footer-text">not ready to commit to a relationship with us yet?<br>it's fine, you can just sign up to our newsletter.<br>we write about art and recommend good shit!</p>
+                        <a href="https://wfishes.substack.com/subscribe" class="footer-newsletter-button" target="_blank" rel="noopener noreferrer">subscribe to newsletter</a>
+                    </div>
+                    <div class="footer-right">
+                        <a href="https://www.linkedin.com/company/weird-fishes-atelier/" class="footer-social" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </section>
+
+    <!-- Unicorn Studio Script -->
+    <script type="text/javascript">!function(){var u=window.UnicornStudio;if(u&&u.init){if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",function(){u.init()})}else{u.init()}}else{window.UnicornStudio={isInitialized:!1};var i=document.createElement("script");i.src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v2.1.3/dist/unicornStudio.umd.js",i.onload=function(){if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",function(){UnicornStudio.init()})}else{UnicornStudio.init()}},(document.head||document.body).appendChild(i)}}();</script>
+
+    <script>
+        // ── Project data ───────────────────────────────────────
+        // Add a new object here to add a project to the gallery.
+        const projects = [
+            {
+                label: "Vereda",
+                cover: "projects/vereda/01.png",
+                description: "Brand identity and investor materials that landed a16z speedrun's first LatAm + agribusiness bet.",
+                url: "projects/vereda.html",
+            },
+            {
+                label: "Big LatAm VC Firm",
+                cover: "projects/manufact/01.png",
+                description: "Coming soon",
+                url: null,
+            },
+            {
+                label: "Really cool industrial startup",
+                cover: "projects/vcfirm/01.png",
+                description: "Coming soon",
+                url: null,
+            },
+        ];
+
+        // ── Toast ──────────────────────────────────────────────
+        let toastTimer;
+        const toast = document.createElement("div");
+        toast.className = "wf-toast";
+        toast.textContent = "this one was not fished yet";
+        document.body.appendChild(toast);
+
+        function showToast() {
+            clearTimeout(toastTimer);
+            toast.classList.add("is-visible");
+            toastTimer = setTimeout(() => toast.classList.remove("is-visible"), 2000);
+        }
+
+        // ── Gallery renderer ───────────────────────────────────
+        function buildCard(project) {
+            const el = project.url ? document.createElement("a") : document.createElement("div");
+            el.className = "gallery-card";
+            if (project.url) {
+                el.href = project.url;
+            } else {
+                el.addEventListener("click", () => {
+                    el.classList.remove("gallery-card--shaking");
+                    void el.offsetWidth; // reflow to restart animation
+                    el.classList.add("gallery-card--shaking");
+                    el.addEventListener("animationend", () => el.classList.remove("gallery-card--shaking"), { once: true });
+                    showToast();
+                });
+            }
+
+            const img = document.createElement("img");
+            img.src = project.cover;
+            img.alt = project.label;
+            img.loading = "lazy";
+            el.appendChild(img);
+
+            const overlay = document.createElement("div");
+            overlay.className = "gallery-card-overlay";
+
+            const name = document.createElement("p");
+            name.className = "gallery-card-name";
+            name.textContent = project.label;
+
+            const desc = document.createElement("p");
+            desc.className = "gallery-card-desc";
+            desc.textContent = project.description;
+
+            overlay.appendChild(name);
+            overlay.appendChild(desc);
+            el.appendChild(overlay);
+            return el;
+        }
+
+        function renderGallery() {
+            const grid = document.getElementById("gallery-grid");
+            projects.forEach(p => grid.appendChild(buildCard(p)));
+        }
+
+        // ── Fade-in observer (contact section) ────────────────
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add("is-visible");
+            });
+        }, { threshold: 0.1 });
+
+        document.addEventListener("DOMContentLoaded", () => {
+            renderGallery();
+            document.querySelectorAll(".fade-in").forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+</html>
