@@ -93,6 +93,12 @@
             height: 100%;
         }
 
+        .ticker-track a {
+            display: block;
+            flex-shrink: 0;
+            height: 280px;
+        }
+
         .ticker-track img {
             height: 280px;
             width: auto;
@@ -101,7 +107,6 @@
             opacity: 0.85;
             transition: opacity 0.2s ease;
             display: block;
-            flex-shrink: 0;
         }
 
         .ticker-track img:hover {
@@ -311,11 +316,16 @@
         // ── Renderer ───────────────────────────────────────────
         function makeImages(images) {
             return images.map(src => {
+                const a = document.createElement("a");
+                a.href = "https://www.linkedin.com/company/vereda-ia/";
+                a.target = "_blank";
+                a.rel = "noopener noreferrer";
                 const img = document.createElement("img");
                 img.src = src;
                 img.alt = "";
                 img.loading = "lazy";
-                return img;
+                a.appendChild(img);
+                return a;
             });
         }
 
