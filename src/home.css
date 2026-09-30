@@ -97,9 +97,9 @@ a.board-cell:hover,a.board-cell:focus-visible{background:#2a2725}a.board-cell:ho
 .mii-hello{cursor:grab;touch-action:none;will-change:transform}
 .mii-hello[data-away]{z-index:5}
 .mii-hello[data-falling]{z-index:60}
-.mii-hello[data-falling][data-away]{--img:var(--held)!important;--n:9;--dur:.375s;--w:72px;--fx:17px;--row:0}
-.mii-hello[data-held]{cursor:grabbing;z-index:60;--img:var(--held)!important;--n:9;--dur:.375s;--w:72px;--fx:17px;--row:0}
-.mii-hello[data-walking]{--img:var(--walk)!important;--n:15;--dur:.625s;--w:52px;--fx:8px;--row:0}
+.mii-hello[data-falling][data-away]{--n:9;--dur:.375s;--w:72px;--fx:17px;--row:3}
+.mii-hello[data-held]{cursor:grabbing;z-index:60;--n:9;--dur:.375s;--w:72px;--fx:17px;--row:3}
+.mii-hello[data-walking]{--n:15;--dur:.625s;--w:52px;--fx:8px;--row:4}
 .mii-hello[data-held]::before,.mii-hello[data-falling]::before,.mii-hello[data-walking]::before{animation-play-state:running}
 .mosaic-wrap:hover .vtoggle,.mosaic-wrap[data-paused] .vtoggle{opacity:1}
 #home-title,.hp-line{text-wrap:balance}.home-sub{text-wrap:pretty}

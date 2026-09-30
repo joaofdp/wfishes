@@ -50,7 +50,7 @@ html{scroll-padding-top:84px}.masthead>a:first-child{margin-right:auto}.masthead
 /* joão's mii. the element is the figure's own box (feet on its bottom edge), so it anchors on the rule and is the hover
    target; the sprite frame is drawn around it by ::before. frames are whole pixels at both scales, so steps never shimmer */
 .mii{--s:1;--row:0;position:absolute;z-index:1;width:calc(var(--fw)*var(--s));height:calc(var(--fh)*var(--s))}
-.mii::before{content:"";position:absolute;left:calc(var(--fx)*var(--s)*-1);top:calc(var(--fy)*var(--s)*-1);width:calc(var(--w)*var(--s));height:calc(var(--h1)*var(--s));background:var(--img) no-repeat;background-size:calc(var(--w)*var(--s)*var(--n)) auto;background-position:0 calc(var(--h1)*var(--s)*var(--row)*-1);pointer-events:none;animation:mii-step var(--dur) steps(var(--n)) infinite;animation-play-state:paused}
+.mii::before{content:"";position:absolute;left:calc(var(--fx)*var(--s)*-1);top:calc(var(--fy)*var(--s)*-1);width:calc(var(--w)*var(--s));height:calc(var(--h1)*var(--s));background:var(--img) no-repeat;background-size:calc(var(--sw,calc(var(--w)*var(--n)))*var(--s)) auto;background-position:0 calc(var(--h1)*var(--s)*var(--row)*-1);pointer-events:none;animation:mii-step var(--dur) steps(var(--n)) infinite;animation-play-state:paused}
 .mii[data-on]::before{animation-play-state:running}
 @keyframes mii-step{to{background-position-x:calc(var(--w)*var(--s)*var(--n)*-1)}}
 .mii[data-blink]{--row:1}
@@ -58,8 +58,9 @@ html{scroll-padding-top:84px}.masthead>a:first-child{margin-right:auto}.masthead
 .mii-sit{--w:56px;--h1:84px;--n:24;--dur:2s;--fx:1px;--fy:0px;--fw:54px;--fh:84px;left:6px;bottom:100%}.mii-sit[data-react]{--row:1}
 .mii-point{--w:52px;--h1:100px;--n:65;--dur:2.708s;--fx:1px;--fy:0px;--fw:46px;--fh:100px;right:calc(100% + 12px);bottom:calc(10px - 45px*var(--s))}
 .mii-point::before{animation-iteration-count:1}.mii-point:not([data-play])::before{animation:none}
-.mii-wait{--w:48px;--h1:100px;--n:15;--dur:.625s;--fx:2px;--fy:0px;--fw:39px;--fh:100px;left:0;bottom:calc(100% + 20px)}
-.mii-wait[data-wave]{--img:var(--wave)!important;--n:7;--dur:.24s;--row:0}
+/* one sheet for every pose of joão's own mii (rows: idle, blink, wave, held, walk), so switching never waits on a new image */
+.mii-wait{--w:48px;--h1:100px;--n:15;--dur:.625s;--fx:2px;--fy:0px;--fw:39px;--fh:100px;--sw:780px;left:0;bottom:calc(100% + 20px)}
+.mii-wait[data-wave]{--n:7;--dur:.24s;--row:2}
 .mii-laugh{--w:44px;--h1:100px;--n:14;--dur:.583s;--fx:1px;--fy:1px;--fw:42px;--fh:99px;right:10px;bottom:100%}
 .mii-pose{--w:52px;--h1:100px;--n:15;--dur:.625s;--fx:1px;--fy:0px;--fw:50px;--fh:100px;left:6px;bottom:100%}
 .chapter-heading,.credit-name,.row-link>a{position:relative}

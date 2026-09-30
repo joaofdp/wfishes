@@ -119,7 +119,6 @@ const miiIO = new IntersectionObserver(entries => {
     const m = e.target;
     if (e.isIntersecting && !m.style.getPropertyValue('--img')) {
       m.style.setProperty('--img', sheet(m.dataset.mii));
-      if (m.dataset.mii === 'wait') { m.style.setProperty('--wave', sheet('wave')); new Image().src = '/media/mii/wave.webp'; }
     }
     m.toggleAttribute('data-on', e.isIntersecting && !reduce.matches);
     if (m.dataset.mii === 'point' && e.isIntersecting && !m.dataset.seen && !reduce.matches) { m.dataset.seen = '1'; m.setAttribute('data-play', ''); }

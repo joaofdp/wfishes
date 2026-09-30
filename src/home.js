@@ -1,7 +1,7 @@
 import { reduce, PLAY, PAUSE } from './site.js';
 import './home.css';
 
-// hello: the mii by the contact line waves once when the page opens (after its wave frames have loaded)
+// hello: the mii by the contact line waves once when the page opens (after his sheet has loaded)
 const hello = document.querySelector('.mii-hello');
 if (hello && !reduce.matches) {
   const sheet = new Image();
@@ -10,14 +10,13 @@ if (hello && !reduce.matches) {
     hello.setAttribute('data-wave', '');
     setTimeout(() => hello.removeAttribute('data-wave'), 1700);
   }, 500);
-  sheet.src = '/media/mii/wave.webp';
+  sheet.src = '/media/mii/wait.webp';
 }
 
 // pick him up: drag the hello mii and he flails and swings from your pointer (like grabbing a mii in the plaza).
 // let go over his own line and he lands on it and walks home. let go past the end of it and he falls to the next
 // rule below that's under him; with no line under him he falls all the way to the bottom of the page, and waits there.
 if (hello) {
-  for (const n of ['held', 'walk']) { hello.style.setProperty('--' + n, `url(${new URL(`/media/mii/${n}.webp`, document.baseURI).href})`); new Image().src = `/media/mii/${n}.webp`; }
   let walkAt = 0;
   const line = hello.parentElement;
   const ledges = () => [line, ...document.querySelectorAll('.hp-head, .receipts .chapter-heading, .home-studio .chapter-heading')];
