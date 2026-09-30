@@ -1,0 +1,19 @@
+{
+  // the Worker behind wfishes.com. the name must stay "wfishes" or the push deploys a second Worker.
+  "name": "wfishes",
+  "compatibility_date": "2026-04-13",
+  // no second public copy of the site on *.workers.dev or on preview URLs
+  "workers_dev": false,
+  "preview_urls": false,
+  // `npx wrangler deploy` runs this first, so Cloudflare needs no build command in the dashboard
+  "build": { "command": "npm run build" },
+  // the site is static. the only code is worker.js, which runs for the videos alone so iphones get byte ranges (206)
+  "main": "worker.js",
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "run_worker_first": ["/media/*.mp4"],
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page"
+  }
+}

@@ -1,0 +1,7 @@
+# old site (before 30 sep 2026). exact-match rules, so each form gets its own line.
+/work /#work 301
+/work/ /#work 301
+/work.html /#work 301
+/projects/vereda /#receipts-title 301
+/projects/vereda/ /#receipts-title 301
+/projects/vereda.html /#receipts-title 301

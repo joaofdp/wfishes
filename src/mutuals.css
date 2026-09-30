@@ -1,0 +1,47 @@
+/* mutuals: silhouette first, then the design; juniper's own blue for the results */
+.mutuals{--jblue:#095ae9;--jnavy:#091d35}
+.intro-links{display:flex;gap:26px;white-space:nowrap}
+
+/* the silhouette divider: color on the right, solid shapes on the left of the line */
+.frame.silhouette{background:#faeadf;cursor:ew-resize;touch-action:pan-y;user-select:none;-webkit-user-select:none;--x:50%}
+.frame.silhouette img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.sil-black{clip-path:inset(0 calc(100% - var(--x)) 0 0)}
+.sil-line{position:absolute;top:0;bottom:0;left:var(--x);width:2px;margin-left:-1px;background:#111;opacity:.55}
+.frame.silhouette:focus-visible{outline:2px solid var(--jblue);outline-offset:3px}
+
+/* the fixed kit: four close-ups from the sheet */
+.frame.kit{background:#faeadf;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:10px;padding:10px}
+.frame.kit figure{position:relative;margin:0;overflow:hidden;border-radius:4px;background:#f3e2d6}
+.frame.kit img{width:100%;height:100%;object-fit:cover}
+.frame.kit figcaption{position:absolute;left:10px;bottom:9px;font-size:12px;line-height:1.2;color:#1a1a1a;background:#faeadfe6;padding:4px 7px;border-radius:3px}
+
+.frame.poses{background:#fff}.frame.poses img{object-fit:contain}
+.frame.kit.strip{aspect-ratio:auto;grid-template-columns:repeat(4,1fr);grid-template-rows:auto}.frame.kit.strip figure{aspect-ratio:1/1}
+.row.two.wide-pair .frame.paper{background:#fbfbfa}.row.two.wide-pair .frame.paper img{object-fit:contain}
+
+/* a vertical social video, whole, on juniper's navy */
+.frame.stage{background:var(--jnavy)}.frame.stage video{object-fit:contain}
+.frame.stage:not([data-full]) video{padding:22px 0}
+
+/* two wide recordings side by side */
+.row.two.wide-pair .frame{aspect-ratio:16/9}
+
+/* results */
+.frame.mutuals-stat{aspect-ratio:auto;background:var(--jblue);color:#fff;display:grid;grid-template-columns:1fr 1fr;gap:34px;padding:38px 36px 34px}
+.frame.mutuals-stat .stat-num{font-size:clamp(56px,7vw,112px);font-weight:500;line-height:.88;letter-spacing:-.065em}
+.frame.mutuals-stat .stat-label{font-size:clamp(16px,1.3vw,19px);letter-spacing:-.02em;max-width:340px}
+.frame.mutuals-stat .stat{display:flex;flex-direction:column;gap:12px}.frame.mutuals-stat .stat+.stat{border-left:1px solid #ffffff40;padding-left:34px}
+.frame.mutuals-stat a{display:inline-flex;gap:0;margin-left:4px;white-space:nowrap}
+
+/* on this page joão's mii starts as a solid shape too, and colors in when you reach for him */
+.mutuals .mii::before{filter:brightness(0);transition:filter .35s}
+.mutuals .mii:hover::before,.mutuals .mii[data-wave]::before,.mutuals .mii[data-react]::before{filter:none}
+
+@media(max-width:700px){
+  .intro-links{gap:18px}
+  .frame.mutuals-stat{grid-template-columns:1fr;padding:26px 22px;gap:26px}.frame.mutuals-stat .stat+.stat{border-left:0;padding-left:0;border-top:1px solid #ffffff40;padding-top:22px}
+  .frame.kit.strip{grid-template-columns:1fr 1fr}
+  .row.one .frame.stage{aspect-ratio:9/14}
+}
+/* tablet portrait: two links beside the credit squeezed it into a sliver */
+@media(min-width:701px) and (max-width:1000px){.mutuals .intro-meta{flex-direction:column;align-items:start;gap:12px}}

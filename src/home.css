@@ -1,0 +1,107 @@
+/* homepage: what / who / why in the first screen, then three projects in three different compositions,
+   then joão, his image work and one panel on how engagements run (see research/homepages/FINDINGS.md) */
+
+.home-intro{display:grid;grid-template-columns:minmax(0,1fr) clamp(240px,29vw,420px);gap:clamp(36px,5vw,72px);align-items:start;padding:clamp(40px,5.5vh,64px) 0 clamp(34px,4.5vh,48px)}
+.home-intro h1{font-size:clamp(40px,4.7vw,74px);font-weight:500;line-height:.92;letter-spacing:-.057em;max-width:11.5em}
+.home-sub{margin-top:clamp(18px,2.4vh,26px);font-size:clamp(18px,1.5vw,23px);line-height:1.32;letter-spacing:-.022em;max-width:min(640px,calc(100% - 96px))}
+.home-cta{position:relative;display:flex;gap:30px;margin-top:clamp(20px,2.8vh,28px);padding-top:14px;border-top:1px solid var(--rule);font-size:14px}
+
+/* one block per project: name and line visible at rest, then its own composition */
+.home-project+.home-project{margin-top:128px}
+.hp-head{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:baseline;gap:28px;padding:14px 0 16px;border-top:1px solid var(--rule)}
+.hp-head h2{font-size:clamp(34px,3.4vw,52px);font-weight:500;line-height:.9;letter-spacing:-.062em}
+.hp-head h2 a:hover{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:6px}
+.hp-line{font-size:clamp(16px,1.3vw,19px);line-height:1.25;letter-spacing:-.02em;max-width:560px}
+.hp-link{font-size:13px;white-space:nowrap}
+.hp-meta{display:flex;justify-content:space-between;gap:24px;margin:12px auto 0;max-width:var(--roww);font-size:12px;line-height:1.45;color:var(--muted)}
+.frame-link{position:absolute;inset:0;z-index:1}
+.frame:has(.frame-link){cursor:pointer}
+
+/* noise: the feed beside a film, 58/42 */
+.row.hp-pair{grid-template-columns:calc((var(--roww) - var(--gap))*.58) calc((var(--roww) - var(--gap))*.42)}
+.hp-pair .frame.hp-reel{aspect-ratio:4/5}.hp-pair .frame.hp-feed{aspect-ratio:58/52.5;background:#0d0c0c;padding:14px}
+.hp-feed-grid{position:absolute;top:14px;left:14px;right:14px;height:calc(100% - 28px);display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:repeat(3,minmax(0,1fr));gap:8px}
+.hp-feed-grid img{width:100%;height:100%;object-fit:cover;border-radius:2px;background:#1a1919}
+
+/* mutuals: the cast as a lineup */
+.hp-cast .frame{aspect-ratio:3/4}
+
+/* studio */
+.home-studio .chapter-heading{margin-top:140px}
+
+/* the miis on this page */
+.home-cta .mii-hello{left:auto;right:6px;bottom:100%}
+.hp-head .mii-laugh{right:8px;bottom:100%}
+.hp-head .mii-pose{left:4px;bottom:100%}
+
+
+@media(max-width:1000px){.hp-head{grid-template-columns:auto minmax(0,1fr)}.hp-link{grid-column:2;justify-self:start}}
+@media(max-width:700px){
+  .home-intro{grid-template-columns:1fr;padding:16px 0 26px;gap:20px}
+  .home-intro h1{font-size:40px;letter-spacing:-.055em}.home-sub{font-size:16px;max-width:calc(100% - 64px)}.home-cta{gap:22px;font-size:13px}
+  .home-project+.home-project{margin-top:100px}
+  .hp-head{grid-template-columns:1fr auto;gap:8px 16px}.hp-head h2{font-size:38px}.hp-line{grid-column:1/-1;grid-row:2;font-size:16px}.hp-link{grid-column:2;grid-row:1;align-self:center}
+  .hp-meta{flex-direction:column;gap:2px;font-size:12px}
+  .row.hp-pair{grid-template-columns:1fr}.hp-pair .frame.hp-feed{aspect-ratio:1.076/1;padding:10px}.hp-feed-grid{gap:5px;top:10px;left:10px;right:10px;height:calc(100% - 20px)}
+  .row.three.hp-cast{grid-template-columns:repeat(3,1fr);gap:6px}.hp-cast .vtoggle{width:24px;height:24px;right:6px;bottom:6px}.hp-cast .vtoggle svg{width:9px;height:9px}
+  .home-studio .chapter-heading{margin-top:110px}
+}
+
+/* hero art: the painting is a plain image first; a lens canvas fades in over it once webgl is running */
+.home-hero-art{position:relative;aspect-ratio:1597/2000;border-radius:var(--radius);overflow:hidden;background:#0b0a0f;touch-action:pan-y;cursor:none}
+.home-hero-art img,.home-hero-art canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.home-hero-art canvas{opacity:0;transition:opacity .6s}.home-hero-art canvas[data-on]{opacity:1}
+.home-hero-art:not(:has(canvas[data-on])){cursor:auto}
+
+/* proof, in the first screen */
+.home-proof{list-style:none;margin:20px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px 26px;font-size:13px;line-height:1.35;color:var(--muted)}
+.home-proof strong{display:block;font-size:clamp(22px,2vw,30px);font-weight:500;letter-spacing:-.045em;color:var(--ink);line-height:1.05}
+
+/* the receipts: a departures board of results */
+.receipts .chapter-heading{margin-top:140px}
+.board{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;max-width:var(--roww);margin:0 auto;background:#3a3836;border:1px solid #3a3836;border-radius:var(--radius);overflow:hidden}
+.board-cell{display:flex;flex-direction:column;justify-content:space-between;gap:26px;min-height:196px;padding:22px 20px 20px;background:#181716;color:var(--paper)}
+a.board-cell:hover,a.board-cell:focus-visible{background:#2a2725}a.board-cell:hover .tile,a.board-cell:focus-visible .tile{background:#3a3633}a.board-cell:hover .board-label,a.board-cell:focus-visible .board-label{color:var(--paper)}a.board-cell:focus-visible{outline:2px solid var(--paper);outline-offset:-6px}
+.flap{display:flex;gap:3px;font-size:clamp(30px,3.1vw,48px);font-weight:500;letter-spacing:-.02em;line-height:1;font-variant-numeric:tabular-nums}
+.flap .tile{position:relative;display:inline-grid;place-items:center;min-width:.66em;padding:.12em .07em .1em;background:#262422;border-radius:3px;color:#f7f1e4}
+.flap .tile::after{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:#0e0d0c}
+.flap .tile[data-flip]{animation:flap .09s linear}
+@keyframes flap{0%{transform:scaleY(1)}50%{transform:scaleY(.15)}100%{transform:scaleY(1)}}
+.board-label{font-size:13px;line-height:1.4;color:#f3eee29e;max-width:260px;text-wrap:balance}
+
+/* the spotlight archive as a fish-eye mosaic: 21 pieces in a tidy wall; the rows and columns near the pointer swell */
+.mosaic-row{margin-top:40px;margin-bottom:clamp(96px,11vw,150px);overflow-anchor:none}   /* a moving grid must never be the scroll anchor, or the page drifts */
+.mosaic-wrap{position:relative;width:var(--roww);max-width:100%}
+.mosaic{display:grid;grid-template-columns:repeat(7,1fr);grid-template-rows:repeat(3,1fr);gap:6px;height:clamp(480px,72vh,660px);padding:6px;background:#0d0c0c;border-radius:var(--radius);overflow:hidden}
+.mosaic-cell{position:relative;min-width:0;min-height:0;padding:0;border:0;border-radius:3px;overflow:hidden;background:#1b1a19;cursor:zoom-in}
+.mosaic-cell img{display:block;width:100%;height:100%;object-fit:cover;transition:filter .35s}
+.mosaic[data-live] .mosaic-cell img{filter:saturate(.85) brightness(.84)}.mosaic[data-live] .mosaic-cell[data-focus] img{filter:none}
+.mosaic-cell:focus-visible{outline:none;z-index:1}.mosaic-cell:focus-visible::after{content:"";position:absolute;inset:0;border:2px solid #fff;border-radius:3px;pointer-events:none;z-index:2}.mosaic[data-live] .mosaic-cell:focus-visible img{filter:none}
+.mosaic-wrap .mii-sit{left:26px;bottom:100%;z-index:2}
+.tank-view{border:0;padding:0;background:transparent;max-width:min(92vw,1100px);max-height:92vh;overflow:visible}
+.tank-view::backdrop{background:#0b0a0fe6}
+.tank-view img{display:block;max-width:min(92vw,1100px);max-height:82vh;width:auto;height:auto;border-radius:var(--radius)}
+.tank-view a{display:inline-flex;gap:0;margin-top:12px;color:var(--paper);font-size:13px}
+.tank-close{position:absolute;right:0;top:-34px;border:0;background:none;color:var(--paper);font-size:13px}
+
+@media(max-width:1000px){.board{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:700px){
+  .home-intro{grid-template-columns:1fr}.home-hero-art{order:-1;aspect-ratio:16/9;border-radius:var(--radius)}.home-hero-art img{object-position:50% 45%}
+  .home-proof{display:grid;grid-template-columns:repeat(3,auto);justify-content:start;gap:10px 24px;margin-top:16px;font-size:12px}.home-proof strong{font-size:21px}
+  .board{grid-template-columns:1fr 1fr}.board-cell{min-height:150px;padding:16px 14px;gap:16px}.flap{font-size:26px;gap:2px}.board-label{font-size:12px}
+  .receipts .chapter-heading{margin-top:100px}
+  .mosaic{grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(7,1fr);height:760px;gap:4px;padding:4px}
+}
+
+/* the hello mii can be picked up, like in the plaza: he flails while held and drops back onto the line */
+.mii-hello{cursor:grab;touch-action:none;will-change:transform}
+.mii-hello[data-away]{z-index:5}
+.mii-hello[data-falling]{z-index:60}
+.mii-hello[data-falling][data-away]{--img:var(--held)!important;--n:9;--dur:.375s;--w:72px;--fx:17px;--row:0}
+.mii-hello[data-held]{cursor:grabbing;z-index:60;--img:var(--held)!important;--n:9;--dur:.375s;--w:72px;--fx:17px;--row:0}
+.mii-hello[data-walking]{--img:var(--walk)!important;--n:15;--dur:.625s;--w:52px;--fx:8px;--row:0}
+.mii-hello[data-held]::before,.mii-hello[data-falling]::before,.mii-hello[data-walking]::before{animation-play-state:running}
+.mosaic-wrap:hover .vtoggle,.mosaic-wrap[data-paused] .vtoggle{opacity:1}
+#home-title,.hp-line{text-wrap:balance}.home-sub{text-wrap:pretty}
+.home-studio .chapter-copy p{text-wrap:pretty}
+@media(max-width:700px){.mosaic-row{margin-top:64px}}

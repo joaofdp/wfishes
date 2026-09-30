@@ -1,0 +1,10 @@
+/* playbook specimen: one opener at poster scale, neighbours as slivers cut by the frame */
+.specimen{background:#0f0f14;cursor:ew-resize;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.specimen-stack{position:absolute;left:0;right:0;top:50%;height:0}
+.specimen-stack img{position:absolute;left:6%;width:88%;height:auto;max-width:none;transform:translateY(calc(-50% + var(--o) * 138%));visibility:hidden}
+.specimen-stack img[data-near="0"]{visibility:visible}
+.specimen-stack img[data-near="-1"],.specimen-stack img[data-near="1"]{visibility:visible;opacity:.16}
+.specimen-count{position:absolute;left:26px;bottom:22px;font-size:12px;color:#ffffff9c;font-variant-numeric:tabular-nums;z-index:2}.specimen-count>span{color:#fff}
+.specimen:focus-visible{outline:2px solid #b3ff00;outline-offset:-4px}
+
+@media(max-width:700px){.row.one .specimen{aspect-ratio:4/3}.specimen-stack img{left:0;width:100%}.specimen-count{bottom:14px;left:16px;font-size:11px}}
