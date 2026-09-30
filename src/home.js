@@ -181,7 +181,7 @@ void main(){
 // the real value stays in the text for screen readers; the tiles are decoration.
 const board = document.getElementById('board');
 if (board) {
-  const CH = '0123456789$km+–st';
+  const CH = '0123456789$km+#st';
   const flaps = [...board.querySelectorAll('.flap')];
   const tiles = flaps.map(f => {
     const v = f.dataset.value; f.textContent = '';

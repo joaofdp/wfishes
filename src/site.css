@@ -65,7 +65,7 @@ html{scroll-padding-top:84px}.masthead>a:first-child{margin-right:auto}.masthead
 .mii-pose{--w:52px;--h1:100px;--n:15;--dur:.625s;--fx:1px;--fy:0px;--fw:50px;--fh:100px;left:6px;bottom:100%}
 .chapter-heading,.credit-name,.row-link>a{position:relative}
 /* a mii that starts as a solid shape and colors in when you reach for it */
-.mii-sil::before{filter:brightness(0);transition:filter .35s}.mii-sil:hover::before,.mii-sil[data-react]::before{filter:none}
+.mii-sil::before{filter:brightness(0);transition:filter .35s;will-change:filter}   /* its own layer from the start: safari otherwise builds one on the first hover and blanks for a frame */.mii-sil:hover::before,.mii-sil[data-react]::before{filter:none}
 /* rules that carry a mii get the headroom for it */
 .chapter-heading:has(>.mii){margin-top:124px}
 @media(max-width:1000px){.chapter-heading:has(>.mii){margin-top:108px}}
