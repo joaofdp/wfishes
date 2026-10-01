@@ -163,7 +163,7 @@ for (const m of miis) {
     // the matching transition row plays once before the new loop
     const pose = () => m.hasAttribute('data-held') || m.hasAttribute('data-falling') ? 'held' : m.hasAttribute('data-walking') ? 'walk' : m.hasAttribute('data-wave') ? 'wave' : 'idle';
     const T = { 'idle>held': 'grab', 'wave>held': 'grab', 'held>idle': 'land', 'idle>walk': 'turn', 'walk>idle': 'turnback', 'idle>wave': 'wavein', 'wave>idle': 'waveout' };
-    const MS = { grab: 333, land: 917, turn: 333, turnback: 333, wavein: 250, waveout: 417 };
+    const MS = { grab: 333, land: 750, turn: 333, turnback: 333, wavein: 250, waveout: 417 };
     let was = pose();
     new MutationObserver(() => {
       const now = pose(); if (now === was) return; const t = T[was + '>' + now]; was = now;

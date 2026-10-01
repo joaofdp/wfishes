@@ -47,7 +47,7 @@ if (hello) {
       if (dy < fy) { vy = Math.min(vy + 2600 / 60, 2800); dy = Math.min(fy, dy + vy / 60); } else { dy += (fy - dy) * .15; vy = 0; }
       rot += (0 - rot) * .2; vrot = 0;
       if (dy >= fy - .5 && Math.abs(dx - landX) < .5 && hello.hasAttribute('data-falling')) {
-        dy = fy; hello.removeAttribute('data-falling'); squash = .78;                 // thud
+        dy = fy; hello.removeAttribute('data-falling'); squash = .92;                 // thud
         walkAt = perch === line && dx < -2 ? t + 950 : 0;                             // on his own line he walks back home (after the landing)
       }
       squash += (1 - squash) * .18;

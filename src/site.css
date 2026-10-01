@@ -59,12 +59,12 @@ html{scroll-padding-top:84px}.masthead>a:first-child{margin-right:auto}.masthead
 .mii-point{--w:52px;--h1:100px;--n:65;--dur:2.708s;--fx:1px;--fy:0px;--fw:46px;--fh:100px;right:calc(100% + 12px);bottom:calc(10px - 45px*var(--s))}
 .mii-point::before{animation-iteration-count:1}.mii-point:not([data-play])::before{animation:none}
 /* one sheet for every pose of joão's own mii (rows: idle, blink, wave, held, walk), so switching never waits on a new image */
-.mii-wait{--w:72px;--h1:108px;--n:15;--dur:.625s;--fx:18px;--fy:.5px;--fw:39px;--fh:102.5px;--sw:1584px;left:0;bottom:calc(100% + 20px)}
+.mii-wait{--w:72px;--h1:108px;--n:15;--dur:.625s;--fx:18px;--fy:.5px;--fw:39px;--fh:102.5px;--sw:1296px;left:0;bottom:calc(100% + 20px)}
 .mii-wait[data-wave]{--n:7;--dur:.24s;--row:2}
 /* the plaza's in-betweens (rows 5-10), played once when he changes pose: picked up, landing, turning to walk and back, waving */
 .mii.mii-wait[data-trans]::before{animation:mii-once var(--dur) steps(var(--n),jump-none) 1 forwards}
 @keyframes mii-once{from{background-position-x:0}to{background-position-x:calc(var(--w)*var(--s)*(var(--n) - 1)*-1)}}
-.mii.mii-wait[data-trans="grab"]{--row:5;--n:8;--dur:.333s}.mii.mii-wait[data-trans="land"]{--row:6;--n:22;--dur:.917s}
+.mii.mii-wait[data-trans="grab"]{--row:5;--n:8;--dur:.333s}.mii.mii-wait[data-trans="land"]{--row:6;--n:18;--dur:.75s}
 .mii.mii-wait[data-trans="turn"]{--row:7;--n:8;--dur:.333s}.mii.mii-wait[data-trans="turnback"]{--row:8;--n:8;--dur:.333s}
 .mii.mii-wait[data-trans="wavein"]{--row:9;--n:6;--dur:.25s}.mii.mii-wait[data-trans="waveout"]{--row:10;--n:10;--dur:.417s}
 .mii-laugh{--w:44px;--h1:100px;--n:14;--dur:.583s;--fx:1px;--fy:1px;--fw:42px;--fh:99px;right:10px;bottom:100%}
