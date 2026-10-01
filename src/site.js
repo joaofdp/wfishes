@@ -154,11 +154,23 @@ for (const m of miis) {
     m.addEventListener('animationend', () => m.removeAttribute('data-play'));
   }
   if (kind === 'wait') {
-    const on = () => { if (!reduce.matches && !m.hasAttribute('data-held') && !m.hasAttribute('data-falling') && !m.hasAttribute('data-walking')) { m.removeAttribute('data-blink'); m.setAttribute('data-wave', ''); } };
+    const on = () => { if (!reduce.matches && !m.hasAttribute('data-held') && !m.hasAttribute('data-falling') && !m.hasAttribute('data-walking') && !m.hasAttribute('data-away')) { m.removeAttribute('data-blink'); m.setAttribute('data-wave', ''); } };
     const off = () => m.removeAttribute('data-wave');
     const near = [...document.querySelectorAll('[data-mii-wave]')];
     reactTo([m, ...near], on, off);
     for (const el of near) { el.addEventListener('focusin', on); el.addEventListener('focusout', off); }
+    // the plaza's in-between animations: when he changes pose (picked up, landing, turning to walk and back, waving)
+    // the matching transition row plays once before the new loop
+    const pose = () => m.hasAttribute('data-held') || m.hasAttribute('data-falling') ? 'held' : m.hasAttribute('data-walking') ? 'walk' : m.hasAttribute('data-wave') ? 'wave' : 'idle';
+    const T = { 'idle>held': 'grab', 'wave>held': 'grab', 'held>idle': 'land', 'idle>walk': 'turn', 'walk>idle': 'turnback', 'idle>wave': 'wavein', 'wave>idle': 'waveout' };
+    const MS = { grab: 333, land: 917, turn: 333, turnback: 333, wavein: 250, waveout: 417 };
+    let was = pose();
+    new MutationObserver(() => {
+      const now = pose(); if (now === was) return; const t = T[was + '>' + now]; was = now;
+      m.removeAttribute('data-trans'); if (!t || reduce.matches) return;
+      void m.offsetWidth; m.setAttribute('data-trans', t);
+      setTimeout(() => { if (m.getAttribute('data-trans') === t) m.removeAttribute('data-trans'); }, MS[t]);
+    }).observe(m, { attributes: true, attributeFilter: ['data-held', 'data-falling', 'data-walking', 'data-wave'] });
   }
 }
 

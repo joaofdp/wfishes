@@ -26,7 +26,7 @@ if (hello) {
   // where his feet rest on the current perch, as offsets from his home spot: [floor dy, min dx, max dx]
   const floor = H => {
     if (perch === line) return [0, H.r.left - H.left, 0];
-    if (perch === 'bottom') return [document.querySelector('.site-footer').getBoundingClientRect().bottom - 3 - H.r.top, 4 - H.left, document.documentElement.clientWidth - H.w - 16 - H.left];   // the footer's end, not scrollHeight: while he's held his own box can stretch the page
+    if (perch === 'bottom') return [document.querySelector('.site-footer').getBoundingClientRect().bottom - 8 - H.r.top, 4 - H.left, document.documentElement.clientWidth - H.w - 16 - H.left];   // the footer's end, not scrollHeight: while he's held his own box can stretch the page
     const r = perch.getBoundingClientRect();
     return [r.top - H.r.top, r.left - H.left, r.right - H.w - H.left];
   };
@@ -48,7 +48,7 @@ if (hello) {
       rot += (0 - rot) * .2; vrot = 0;
       if (dy >= fy - .5 && Math.abs(dx - landX) < .5 && hello.hasAttribute('data-falling')) {
         dy = fy; hello.removeAttribute('data-falling'); squash = .78;                 // thud
-        walkAt = perch === line && dx < -2 ? t + 550 : 0;                             // on his own line he walks back home
+        walkAt = perch === line && dx < -2 ? t + 950 : 0;                             // on his own line he walks back home (after the landing)
       }
       squash += (1 - squash) * .18;
       if (walkAt && t >= walkAt && !hello.hasAttribute('data-falling')) {
