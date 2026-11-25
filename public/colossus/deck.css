@@ -1,0 +1,408 @@
+/* Colossus proposal, live deck. The house template (Helvetica Neue, lowercase, the fish, the footer) on a 1920 x 1080 stage. */
+:root {
+  --ink: #141414;
+  --grey: #85857f;
+  --soft: #b9b9b4;
+  --line: #dcdcd7;
+  --paper: #ffffff;
+  --wall: #d6d6d2;          /* the look sheets' own wall */
+  --accent: #5450d0;        /* the blue of "check it out" in the house decks */
+  --night: #18233d;         /* stands in for the Midjourney art until it arrives */
+  --m: 96px;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
+body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; color: var(--ink); -webkit-font-smoothing: antialiased; font-kerning: normal; }
+#stage { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 0 0; overflow: hidden; background: var(--paper); }
+
+/* slides and builds */
+.slide { position: absolute; inset: 0; background: var(--paper); opacity: 0; visibility: hidden; }
+.slide.on { opacity: 1; visibility: visible; }
+[data-step] { opacity: 0; }
+[data-step].in { opacity: 1; transform: none; }
+[data-step].swap { transform: none; }
+.render *, .render .slide { transition: none !important; animation: none !important; }
+.notes { display: none; }
+
+/* the footer, as in every house deck */
+.foot { position: absolute; left: 0; right: 0; bottom: 32px; text-align: center; font-size: 18px; line-height: 1; color: var(--ink); white-space: nowrap; pointer-events: none; }
+.foot span + span { margin-left: 24px; }
+.dark .foot, .foot.w { color: #fff; }
+
+/* type: one scale */
+.h { position: absolute; left: var(--m); top: 74px; width: 1700px; margin: 0; font-weight: 400; font-size: 72px; line-height: 1.04; letter-spacing: -0.018em; }
+.h b, .lead b, .t40 b, .t32 b { font-weight: 700; }
+.lead { font-size: 48px; line-height: 1.14; letter-spacing: -0.01em; margin: 0; }
+.t40 { font-size: 40px; line-height: 1.16; letter-spacing: -0.008em; margin: 0; }
+.t32 { font-size: 32px; line-height: 1.24; margin: 0; }
+.t26 { font-size: 26px; line-height: 1.3; margin: 0; }
+.cap { font-size: 22px; line-height: 1.32; color: var(--grey); margin: 0; }
+.grey { color: var(--grey); }
+.abs { position: absolute; }
+a { color: var(--accent); text-decoration: none; }
+
+/* the art slots: Midjourney pictures go here; until then a flat night blue */
+.art { position: absolute; background: var(--night) center / cover no-repeat; }
+.art.full { inset: 0; }
+/* drop the chosen pictures into art/ under these names and they appear; a missing file leaves the night blue */
+.art[data-art="cover"] { background-image: url("art/cover.jpg"); }
+.art[data-art="found"] { background-image: url("art/found.jpg"); }
+.art[data-art="truth"] { background-image: url("art/truth.jpg"); }
+.art[data-art="close"] { background-image: url("art/close.jpg"); }
+.art.full::after { content: ""; position: absolute; inset: 0; background: rgba(8, 10, 18, var(--dim, 0)); }
+
+/* 1 cover */
+.cover .art { left: 0; top: 0; width: 1920px; height: 690px; }
+.cover .fish { position: absolute; left: 50%; top: 345px; width: 470px; transform: translate(-50%, -50%); }
+.cover .cv-t { position: absolute; left: var(--m); top: 735px; font-size: 84px; line-height: 1.28; letter-spacing: -0.012em; }
+.cover .cv-logo { position: absolute; right: var(--m); top: 846px; width: 380px; }
+
+/* 2 what you told me */
+.told .q { position: absolute; left: var(--m); top: 320px; width: 720px; margin: 0; font-size: 84px; line-height: 1.02; letter-spacing: -0.025em; }
+.told .q cite { display: block; margin-top: 30px; font-style: normal; font-size: 28px; letter-spacing: 0; color: var(--grey); }
+.told .asks { position: absolute; left: 920px; top: 332px; width: 904px; margin: 0; padding: 0; list-style: none; }
+.told .asks li { display: grid; grid-template-columns: 210px 1fr; gap: 20px; font-size: 36px; line-height: 1.18; padding: 0 0 22px; }
+.told .asks li span { color: var(--grey); }
+.told .then { position: absolute; left: var(--m); top: 640px; width: 720px; color: var(--grey); }
+
+/* 3 the answer */
+.answer .lead.sub { position: absolute; left: var(--m); top: 340px; width: 1320px; color: var(--ink); }
+.route { position: absolute; left: var(--m); top: 610px; width: 1728px; margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
+.route li { font-size: 36px; line-height: 1.2; }
+.route li i { display: block; font-style: normal; font-size: 84px; line-height: 1; color: var(--soft); margin-bottom: 18px; letter-spacing: -0.03em; }
+
+/* chapter openers over art */
+.chapter .h { color: #fff; }
+
+/* evidence: the looks */
+.looks .it { position: absolute; top: 300px; }
+.looks .it .pic { background: #eee center / cover no-repeat; }
+.looks .it p { margin-top: 18px; width: 100%; }
+.looks .src { position: absolute; left: var(--m); top: 980px; }
+
+/* evidence: the covers */
+.covers .row { position: absolute; left: var(--m); top: 296px; width: 1728px; height: 330px; display: flex; gap: 18px; align-items: flex-start; }
+.covers .row figure { margin: 0; width: 200px; }
+.covers .row img { display: block; width: 200px; }
+.covers .row figcaption { margin-top: 10px; font-size: 20px; color: var(--grey); }
+.covers .groups { position: absolute; left: var(--m); top: 650px; width: 1728px; height: 140px; }
+.covers .g { position: absolute; top: 0; border-top: 2px solid var(--ink); padding-top: 12px; font-size: 24px; line-height: 1.25; }
+.covers .lesson { position: absolute; left: var(--m); top: 850px; width: 1400px; }
+
+/* evidence: the sentences */
+.travel .card { position: absolute; left: var(--m); top: 300px; width: 520px; height: 650px; background: #f7f7f7 center / cover no-repeat; }
+.travel .bars { position: absolute; left: 720px; top: 300px; width: 1104px; }
+.bar { margin: 0 0 36px; }
+.bar .lab { font-size: 30px; margin-bottom: 10px; }
+.bar .tr { position: relative; height: 34px; margin-bottom: 6px; }
+.bar .tr i { position: absolute; left: 0; top: 0; height: 100%; background: var(--ink); }
+.bar .tr.l i { background: var(--line); }
+.bar .tr span { position: absolute; top: 50%; transform: translateY(-50%); font-size: 26px; white-space: nowrap; }
+.travel .key { font-size: 22px; color: var(--grey); margin: -8px 0 30px; }
+.travel .key b { display: inline-block; width: 18px; height: 18px; background: var(--ink); vertical-align: -2px; margin-right: 8px; }
+.travel .key b.l { background: var(--line); margin-left: 26px; }
+.travel .sum { position: absolute; left: 720px; top: 820px; width: 1104px; }
+.travel .src { position: absolute; left: 720px; top: 960px; }
+
+/* evidence: the one page */
+.page .shot { position: absolute; left: var(--m); width: 760px; height: 404px; background: #f6f6f6 center top / cover no-repeat; }
+.page .shot + p { position: absolute; left: var(--m); }
+.page .big { position: absolute; left: 960px; top: 300px; font-size: 168px; line-height: .9; letter-spacing: -0.045em; font-weight: 700; }
+.page .big small { font-size: 64px; letter-spacing: -0.02em; font-weight: 700; }
+.page .why { position: absolute; left: 960px; top: 480px; width: 864px; }
+
+/* two people */
+.two .col { position: absolute; top: 330px; width: 780px; }
+.two .col .cap { font-size: 28px; margin-bottom: 20px; color: var(--grey); }
+.two .punch { position: absolute; left: var(--m); top: 760px; width: 1700px; }
+
+/* the map: a field whose axes are her sentences */
+.map { position: absolute; }
+.map .ax { position: absolute; background: var(--ink); }
+.map .ax.x { left: 0; right: 0; top: 50%; height: 2px; margin-top: -1px; }
+.map .ax.y { top: 0; bottom: 0; left: 50%; width: 2px; margin-left: -1px; }
+.map .end { position: absolute; white-space: nowrap; }
+.map .end b { display: block; font-weight: 400; font-size: 46px; letter-spacing: -0.015em; line-height: 1; }
+.map .end i { display: block; font-style: normal; font-size: 22px; color: var(--grey); margin-top: 8px; }
+.map .e-l { left: 0; top: calc(50% + 16px); }
+.map .e-r { right: 0; top: calc(50% + 16px); text-align: right; }
+.map .e-t { left: calc(50% + 22px); top: 0; }
+.map .e-b { left: calc(50% + 22px); bottom: 0; }
+.map .avoid { position: absolute; left: 0; top: 50%; width: 50%; height: 50%; background: repeating-linear-gradient(135deg, rgba(20,20,20,.07) 0 3px, rgba(20,20,20,0) 3px 16px); }
+.map .avoid span { position: absolute; left: 24px; top: 104px; width: 380px; font-size: 24px; line-height: 1.3; color: #55554f; }
+.map .pt { position: absolute; left: calc(50% + var(--x) * 46%); top: calc(50% - var(--y) * 46%); }
+.map .pt > i { position: absolute; left: 0; top: 0; width: 14px; height: 14px; margin: -7px 0 0 -7px; border-radius: 50%; background: var(--soft); }
+.map .pt > span { position: absolute; left: 18px; top: 0; transform: translateY(-50%); white-space: nowrap; font-size: 22px; color: var(--grey); }
+.map .pt.l > span { left: auto; right: 18px; text-align: right; }
+.map .pt.today > i { width: 24px; height: 24px; margin: -12px 0 0 -12px; background: var(--ink); }
+.map .pt.today > span { left: 26px; font-size: 28px; color: var(--ink); }
+.map .pt.sp > i { width: 28px; height: 28px; margin: -14px 0 0 -14px; background: var(--accent); }
+.map .pt.sp > span { left: 30px; color: var(--ink); }
+.map .pt.sp > span b { display: block; font-weight: 400; font-size: 44px; letter-spacing: -0.015em; line-height: 1; }
+.map .pt.sp > span em { display: block; font-style: normal; font-size: 22px; color: var(--grey); margin-top: 6px; }
+.map .pt.sp.l > span { left: auto; right: 30px; }
+.map .scale { position: absolute; right: 0; bottom: -46px; font-size: 18px; color: var(--grey); }
+.map svg.route { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.map svg.route path { fill: none; stroke: var(--accent); stroke-width: 5; stroke-linecap: round; stroke-dasharray: 1400; stroke-dashoffset: 1400; transition: stroke-dashoffset 1.4s cubic-bezier(.65,0,.35,1) .2s; }
+.map svg.route.in path { stroke-dashoffset: 0; }
+.map .pt.goal > i { width: 34px; height: 34px; margin: -17px 0 0 -17px; background: #fff; border: 7px solid var(--accent); }
+.map .pt.goal > span { left: 4px; top: -44px; transform: none; color: var(--accent); font-size: 30px; }
+.bigmap { left: 196px; top: 236px; width: 1528px; height: 724px; }
+
+/* the three spaces: a panel on the left, the live sheet on the right */
+.space .panel { position: absolute; left: 0; top: 0; width: 700px; height: 1080px; background: var(--paper); }
+.space .kick { position: absolute; left: var(--m); top: 80px; font-size: 24px; color: var(--grey); }
+.space .name { position: absolute; left: var(--m); top: 118px; margin: 0; font-weight: 400; font-size: 108px; line-height: 1; letter-spacing: -0.035em; }
+.space .bet { position: absolute; left: var(--m); top: 262px; width: 540px; }
+.space .mini { left: var(--m); top: 470px; width: 220px; height: 150px; }
+.space .mini .ax.x, .space .mini .ax.y { background: var(--soft); }
+.space .mini .pt > i { width: 12px; height: 12px; margin: -6px 0 0 -6px; background: var(--soft); }
+.space .mini .pt.me > i { width: 20px; height: 20px; margin: -10px 0 0 -10px; background: var(--accent); }
+.space .mini .pt > span { display: none; }
+.space .mini .lbl { position: absolute; font-size: 15px; color: var(--grey); white-space: nowrap; }
+.space .stops { position: absolute; left: var(--m); top: 664px; width: 540px; height: 280px; }
+.space .stops p { position: absolute; left: 0; top: 0; }
+.space .count { position: absolute; left: var(--m); top: 962px; font-size: 20px; color: var(--grey); }
+.cam { position: absolute; overflow: hidden; background: var(--wall); }
+.cam iframe { position: absolute; left: 0; top: 0; width: 3200px; height: 3300px; border: 0; transform-origin: 0 0; pointer-events: none; transition: transform 1.2s cubic-bezier(.65,0,.25,1); background: var(--wall); }
+.space .cam { left: 700px; top: 0; width: 1220px; height: 1080px; }
+
+/* your story in each space */
+.trio { position: absolute; left: var(--m); top: 220px; width: 1728px; height: 740px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+.trio figure { position: relative; margin: 0; }
+.trio .cam { left: 0; top: 76px; width: 300px; height: 649px; background: transparent; }
+.trio figcaption { position: absolute; left: 0; top: 0; width: 549px; height: 730px; }
+.trio figcaption b { position: absolute; left: 0; top: 0; display: block; font-weight: 400; font-size: 48px; line-height: 1; letter-spacing: -0.02em; }
+.trio figcaption p { position: absolute; left: 326px; top: 76px; width: 214px; }
+.three .note { position: absolute; left: var(--m); top: 972px; }
+
+/* the recommendation */
+.reco .map { left: 110px; top: 300px; width: 980px; height: 620px; }
+.reco .map .end b { font-size: 32px; }
+.reco .map .end i { font-size: 18px; }
+.reco .map .pt.sp > span b { font-size: 32px; }
+.reco .map .pt.sp > span em { display: none; }
+.reco .why { position: absolute; left: 1236px; top: 300px; width: 588px; margin: 0; padding: 0; list-style: none; }
+.reco .why li { font-size: 34px; line-height: 1.2; margin-bottom: 30px; }
+.reco .why li b { font-weight: 700; }
+
+/* the plan */
+.plan .line { position: absolute; left: var(--m); right: var(--m); top: 442px; height: 2px; background: var(--ink); }
+.plan .cols { position: absolute; left: var(--m); top: 390px; width: 1728px; display: grid; grid-template-columns: 360px 500px 360px 1fr; gap: 44px; }
+.plan .cols > div { position: relative; padding-top: 86px; }
+.plan .cols > div::before { content: ""; position: absolute; left: 0; top: 44px; width: 18px; height: 18px; border-radius: 50%; background: var(--ink); }
+.plan .cols > div.launch::before { width: 30px; height: 30px; top: 38px; background: var(--accent); }
+.plan .when { position: absolute; left: 0; top: 0; font-size: 28px; color: var(--grey); }
+.plan .cols h3 { margin: 0 0 16px; font-weight: 400; font-size: 52px; line-height: 1.02; letter-spacing: -0.02em; }
+.plan .cols .launch h3 { color: var(--accent); }
+.plan .ask { position: absolute; left: var(--m); top: 900px; }
+
+/* how it works, and the options */
+.cols3 { position: absolute; left: var(--m); top: 330px; width: 1728px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 64px; }
+.cols3 h3 { margin: 0 0 22px; font-weight: 400; font-size: 56px; line-height: 1.02; letter-spacing: -0.02em; }
+.cols3 p + p { margin-top: 18px; }
+.options .cols3 h3 { font-size: 60px; }
+.options .plus { font-size: 30px; color: var(--grey); margin: 0 0 16px; }
+.options ul { margin: 0; padding: 0; list-style: none; }
+.options li { font-size: 36px; line-height: 1.2; padding: 12px 0; border-top: 1px solid var(--line); }
+.options li:last-child { border-bottom: 1px solid var(--line); }
+.options .tag { display: block; margin-top: 6px; font-size: 24px; color: var(--grey); }
+.options .after { position: absolute; left: var(--m); top: 900px; }
+
+/* the money question */
+.money .pre { position: absolute; left: var(--m); top: 300px; font-size: 40px; color: var(--grey); }
+.money .ask { position: absolute; left: var(--m); top: 380px; width: 1700px; font-size: 112px; line-height: 1.02; letter-spacing: -0.035em; margin: 0; }
+
+/* who */
+.who .wm { position: absolute; left: var(--m); top: 70px; height: 112px; }
+.who .tg { position: absolute; left: var(--m); top: 206px; height: 30px; }
+.who .cases { position: absolute; left: var(--m); top: 300px; width: 1728px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px; }
+.who .case .pic { height: 296px; background: #eee center / cover no-repeat; }
+.who .case .num { height: 296px; background: #f2f2ef; display: flex; align-items: center; justify-content: center; font-size: 96px; letter-spacing: -0.04em; }
+.who .case h3 { margin: 24px 0 10px; font-weight: 400; font-size: 48px; letter-spacing: -0.015em; }
+.who .case a { display: inline-block; margin-top: 16px; font-size: 30px; }
+
+/* the truth is */
+.truth .h { color: #fff; }
+.truth .body { position: absolute; left: var(--m); top: 400px; width: 1040px; color: #fff; font-size: 60px; line-height: 1.12; letter-spacing: -0.015em; margin: 0; }
+.truth .body b { display: block; margin-top: 44px; font-weight: 700; }
+
+/* the close */
+.close .marks { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: flex; align-items: center; gap: 56px; }
+.close .marks img.f { width: 330px; }
+.close .marks span { color: #fff; font-size: 64px; font-weight: 300; }
+.close .marks img.c { width: 400px; }
+
+/* presenter's helpers: a step counter and the slide number, only when asked for */
+#hud { position: fixed; right: 12px; bottom: 10px; font: 12px/1 "Helvetica Neue", Arial, sans-serif; color: #666; display: none; }
+.hud #hud { display: block; }
+
+/* body sizes for a shared screen */
+.t36 { font-size: 36px; line-height: 1.2; margin: 0; }
+.t52 { font-size: 52px; line-height: 1.1; letter-spacing: -0.015em; margin: 0; }
+.t60 { font-size: 60px; line-height: 1.08; letter-spacing: -0.02em; margin: 0; }
+.t60 b { font-weight: 700; }
+.t30 { font-size: 30px; line-height: 1.24; margin: 0; }
+
+/* the spotlight over the live sheet */
+.cam .spot { position: absolute; pointer-events: none; box-shadow: 0 0 0 4000px rgba(214, 214, 210, .9);
+  transition: left 1.2s cubic-bezier(.65,0,.25,1), top 1.2s cubic-bezier(.65,0,.25,1), width 1.2s cubic-bezier(.65,0,.25,1), height 1.2s cubic-bezier(.65,0,.25,1), box-shadow .7s ease; }
+.cam .spot.off { box-shadow: 0 0 0 4000px rgba(214, 214, 210, 0); }
+
+/* on the space slides the footer sits under the panel, off the live sheet */
+.space .foot { right: auto; width: 700px; }
+
+/* round-one fixes: no lone last words; one body scale */
+.h, .q, .lead, .t60, .t52, .t40, .money .ask, .truth .body, .space .bet, .reco .why li, .options .how { text-wrap: balance; }
+p, li, .g, figcaption, .asks div { text-wrap: pretty; }
+.t32 { font-size: 32px; line-height: 1.24; }
+
+/* the map, a notch bolder */
+.bigmap .ax.x { height: 3px; margin-top: -1.5px; }
+.bigmap .ax.y { width: 3px; margin-left: -1.5px; }
+.bigmap .pt.sp > span b { font-size: 52px; }
+.map .pt.up > span { top: -40px; left: -12px; transform: none; }
+
+/* the sheets' own working notes are masked in the deck (the sheets are untouched) */
+.cam .mask { position: absolute; left: 0; top: 0; width: 3200px; height: 3300px; transform-origin: 0 0; pointer-events: none; transition: transform 1.2s cubic-bezier(.65,0,.25,1); }
+.cam .mask i { position: absolute; background: var(--wall); }
+.space .sample { position: absolute; left: var(--m); top: 940px; width: 520px; font-size: 18px; line-height: 1.3; color: var(--grey); }
+.space .count { top: 898px; }
+
+/* your story, three ways: big phones cut by the frame, then the tiles, then a question */
+.trio { top: 196px; height: 800px; }
+.trio figcaption { position: static; width: auto; height: auto; }
+.trio figcaption b { position: static; display: block; font-weight: 400; font-size: 48px; line-height: 1; letter-spacing: -0.02em; }
+.trio figcaption p { position: absolute; left: 0; top: 62px; width: 520px; }
+.trio .cam { left: 0; top: 150px; width: 450px; height: 630px; background: #fff; }
+.trio .cam .spot { box-shadow: 0 0 0 4000px #fff; }
+.trio { transition: opacity .6s ease; }
+.three[data-at="2"] .trio, .three[data-at="2"] .note { opacity: .06; }
+.three .ask { position: absolute; left: var(--m); top: 400px; width: 1600px; margin: 0; font-size: 96px; line-height: 1.02; letter-spacing: -0.03em; color: var(--ink); text-wrap: balance; }
+.three .note { top: 990px; }
+
+/* the recommendation: the three spaces fold into one point */
+.map svg.route path.link { stroke-width: 2; stroke-dasharray: 6 8 !important; stroke-dashoffset: 0 !important; opacity: 0; transition: opacity .8s ease 1s; }
+.map svg.route.in path.link { opacity: .55; }
+
+/* the options as nested brackets */
+.opts .br { position: absolute; left: var(--m); height: 0; border-top: 3px solid var(--ink); }
+.opts .br::before, .opts .br::after { content: ""; position: absolute; top: -3px; width: 3px; height: 22px; background: var(--ink); }
+.opts .br::before { left: 0; } .opts .br::after { right: 0; }
+.opts .br span { position: absolute; left: 0; bottom: 12px; font-size: 40px; line-height: 1; letter-spacing: -0.015em; white-space: nowrap; }
+.opts .br em { font-style: normal; font-size: 24px; color: var(--grey); margin-left: 16px; letter-spacing: 0; }
+.opts .grp { position: absolute; top: 560px; margin: 0; padding: 0; list-style: none; }
+.opts .grp li { font-size: 32px; line-height: 1.22; padding: 0 0 14px; }
+.opts .grp li i { font-style: normal; color: var(--grey); }
+.opts .how { position: absolute; left: var(--m); top: 868px; width: 1500px; }
+
+/* the covers, from colossus.com where it answers */
+.covers .row img { height: auto; }
+
+/* the one page: the kushner page beside its number */
+.page .cap.under { position: absolute; left: var(--m); font-size: 22px; }
+
+/* the recommendation map: today's label sits below its dot, clear of the line that leaves it */
+.reco .map .pt.today > span { left: -60px; top: 18px; transform: none; }
+
+/* round two */
+.plan .keep { position: absolute; left: var(--m); top: 862px; width: 1600px; }
+.who .proof { position: absolute; left: var(--m); top: 900px; width: 1600px; }
+.opts .br strong { font-weight: 400; font-size: 24px; color: #fff; background: var(--accent); padding: 4px 10px 5px; margin-left: 16px; letter-spacing: 0; vertical-align: 4px; }
+.reco .map .pt.goal > span { left: -110px; top: -54px; width: 220px; text-align: center; transform: none; }
+.trio .cam { height: 600px; }
+.next .steps { position: absolute; left: var(--m); top: 330px; width: 1500px; margin: 0; padding: 0; list-style: none; }
+.next .steps li { display: grid; grid-template-columns: 280px 1fr; gap: 24px; font-size: 48px; line-height: 1.12; letter-spacing: -0.01em; padding: 0 0 34px; }
+.next .steps li span { color: var(--grey); font-size: 32px; padding-top: 10px; letter-spacing: 0; }
+.reco .map .pt.goal > span { left: 28px; top: -2px; width: auto; text-align: left; }
+
+/* ===== the ambition pass ===== */
+/* cold open: her sentence in Colossus's reading type, read at speaking pace, then marked */
+.cold { background: #f7f7f5; }
+.cold .line { position: absolute; left: var(--m); top: 300px; width: 1640px; margin: 0; font-family: "Tiempos Text", "Tiempos Headline", Georgia, serif; font-size: 104px; line-height: 1.22; letter-spacing: -0.012em; color: #111; }
+.cold .line mark { background: linear-gradient(#fdcd1f, #fdcd1f) 0 82% / 100% 78% no-repeat; color: inherit; padding: 0 .08em; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+.cold .fig { position: absolute; left: var(--m); top: 760px; margin: 0; font-size: 44px; line-height: 1.2; letter-spacing: -0.01em; }
+.cold .fig b { font-weight: 700; }
+.cold .line span, .cold .fig { opacity: 0; }
+.cold .line mark { background-size: 0% 78%; }
+.cold[data-at="1"] .line span { opacity: 1; transition: opacity .12s linear; transition-delay: calc(var(--i) * 210ms + 200ms); }
+.cold[data-at="1"] .line mark { background-size: 100% 78%; transition: background-size 1.1s cubic-bezier(.65,0,.35,1) 2.4s; }
+.cold[data-at="1"] .fig { opacity: 1; transition: opacity .6s ease 2.9s; }
+@keyframes speak { from { opacity: 0; } to { opacity: 1; } }
+@keyframes sweep { from { background-size: 0% 78%; } to { background-size: 100% 78%; } }
+@keyframes appear { from { opacity: 0; } to { opacity: 1; } }
+
+/* the three openers: one colour, one device, one word */
+.opener .kick { position: absolute; left: var(--m); top: 86px; font-size: 28px; color: var(--grey); }
+.opener .big { position: absolute; left: var(--m); bottom: 250px; margin: 0; font-weight: 400; font-size: 280px; line-height: .86; letter-spacing: -0.055em; }
+.opener .big span { display: inline-block; }
+.o-sit { background: #016a5c; color: #fff; }
+.o-sit .kick { color: rgba(255,255,255,.72); }
+.o-sit .table { position: absolute; left: 0; right: 0; bottom: 0; height: 236px; background: #151515; transform-origin: 0 50%; }
+.o-sit .big { bottom: 262px; }
+.o-pas { background: #f7f7f5; }
+.o-pas .big span { background: linear-gradient(#fdcd1f, #fdcd1f) 0 90% / 100% 62% no-repeat; padding: 0 .06em; }
+.o-rec .big { bottom: 330px; }
+.o-rec .band { position: absolute; left: var(--m); right: var(--m); bottom: 236px; height: 22px; display: grid; grid-template-columns: repeat(24, 1fr); gap: 10px; }
+.o-rec .band i { background: #0070cc; }
+.o-rec .band i:nth-child(n+12) { background: #c2dbf3; }
+.o-rec .unit { position: absolute; left: var(--m); bottom: 176px; margin: 0; font-size: 28px; color: var(--grey); }
+.o-sit.play .table { animation: drawx .8s cubic-bezier(.65,0,.35,1) both; }
+.o-sit.play .big span, .o-rec.play .big span { animation: rise .8s cubic-bezier(.16,1,.3,1) .35s both; }
+.o-pas.play .big span { animation: sweep2 1s cubic-bezier(.65,0,.35,1) .3s both; }
+.o-rec.play .band i { animation: cell .25s ease both; animation-delay: calc(var(--i) * 45ms + .6s); }
+@keyframes drawx { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes rise { from { clip-path: inset(100% 0 0 0); transform: translateY(40px); } to { clip-path: inset(-10% 0 -10% 0); transform: none; } }
+@keyframes sweep2 { from { background-size: 0% 62%; } to { background-size: 100% 62%; } }
+@keyframes cell { from { opacity: 0; } to { opacity: 1; } }
+
+/* the evidence moves: bars grow, covers are dealt in */
+.travel .tr i { transform-origin: 0 50%; }
+.travel.play .tr i { animation: drawx .9s cubic-bezier(.2,.7,.2,1) both; }
+.travel.play .bar:nth-child(2) .tr i { animation-delay: .35s; }
+.travel.play .bar:nth-child(3) .tr i { animation-delay: .55s; }
+.travel.play .bar:nth-child(4) .tr i { animation-delay: .75s; }
+.travel.play .tr span { animation: appear .4s ease both; animation-delay: 1.1s; }
+.covers.play .row figure { animation: deal .55s cubic-bezier(.2,.7,.2,1) both; }
+.covers.play .row figure:nth-child(2) { animation-delay: .07s; } .covers.play .row figure:nth-child(3) { animation-delay: .14s; }
+.covers.play .row figure:nth-child(4) { animation-delay: .21s; } .covers.play .row figure:nth-child(5) { animation-delay: .28s; }
+.covers.play .row figure:nth-child(6) { animation-delay: .35s; } .covers.play .row figure:nth-child(7) { animation-delay: .42s; }
+.covers.play .row figure:nth-child(8) { animation-delay: .49s; }
+@keyframes deal { from { clip-path: inset(100% 0 0 0); } to { clip-path: inset(0 0 0 0); } }
+
+/* the map draws its axes from the centre */
+.bigmap .ax.x { transform-origin: 50% 50%; } .bigmap .ax.y { transform-origin: 50% 50%; }
+.slide.play .bigmap .ax.x { animation: drawx .9s cubic-bezier(.65,0,.35,1) both; }
+.slide.play .bigmap .ax.y { animation: drawy .9s cubic-bezier(.65,0,.35,1) .15s both; }
+@keyframes drawy { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+
+/* what 2027 looks like: three pieces on the board */
+.comp { background: var(--wall); }
+.comp .pc { position: absolute; margin: 0; top: 210px; }
+.comp .pc .cam { position: relative; background: transparent; box-shadow: 0 1px 2px rgba(0,0,0,.14), 0 18px 34px -14px rgba(0,0,0,.32); }
+.comp .p1 { left: var(--m); width: 442px; } .comp .p1 .cam { width: 442px; height: 626px; }
+.comp .p2 { left: 600px; width: 440px; } .comp .p2 .cam { width: 440px; height: 550px; }
+.comp .p3 { left: 1104px; width: 720px; } .comp .p3 .cam { width: 720px; height: 186px; }
+.comp figcaption { margin-top: 20px; font-size: 26px; line-height: 1.28; }
+.comp figcaption b { display: block; font-weight: 400; font-size: 36px; letter-spacing: -0.01em; margin-bottom: 4px; }
+.comp .say { position: absolute; left: 1104px; top: 560px; width: 720px; }
+.comp .note { position: absolute; left: 1104px; top: 860px; width: 720px; }
+.comp.play .pc { animation: appear .6s ease both; } .comp.play .p2 { animation-delay: .25s; } .comp.play .p3 { animation-delay: .5s; }
+.comp.play .say { animation: appear .6s ease .8s both; }
+
+/* rehearsal notes, 18 Nov */
+.taste .a { position: absolute; left: var(--m); top: 300px; width: 1500px; }
+.taste .b { position: absolute; left: var(--m); top: 470px; width: 1300px; }
+.taste .c { position: absolute; left: var(--m); top: 760px; }
+.chapter .from { position: absolute; left: var(--m); top: 248px; margin: 0; font-size: 30px; color: rgba(255,255,255,.8); }
+.who .pic.hemis { position: relative; background-color: #f2f2ef; }
+.who .pic.hemis span { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 72px; letter-spacing: -0.03em; color: var(--ink); z-index: 0; }
+.comp.two .p1 { left: var(--m); width: 470px; } .comp.two .p1 .cam { width: 470px; height: 666px; }
+.comp.two .p2 { left: 640px; width: 480px; } .comp.two .p2 .cam { width: 480px; height: 600px; }
+.comp.two .say { left: 1210px; top: 230px; width: 614px; }
+.comp.two .note { left: 1210px; top: 560px; width: 614px; }
+.who .pic.hemis i { position: absolute; inset: 0; background: center / cover no-repeat; z-index: 1; }
+.reco .map .pt.goal > span { left: 24px; top: 16px; }
+/* the one direction */
+.o-one .big { font-size: 210px; letter-spacing: -0.05em; }
+.o-one .big mark { background: #fdcd1f; color: #111; padding: 0 .06em; }

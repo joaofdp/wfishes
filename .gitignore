@@ -4,3 +4,4 @@ dist
 .wrangler
 .claude
 .DS_Store
+.dev.vars
