@@ -637,3 +637,7 @@ a { color: var(--accent); text-decoration: underline; text-underline-offset: 4px
 /* v22: the site's extra status is big, not fine print */
 .space .name i.xt { font-style: normal; font-size: 28px; letter-spacing: 0; color: #fff; background: var(--l-terra); padding: 6px 14px; margin-left: 18px; vertical-align: 22px; }
 .browser .bar .xb { margin-left: auto; font-family: var(--l-sans); font-weight: 500; font-size: 20px; color: #fff; background: var(--l-terra); padding: 6px 14px; }
+.price .extra { align-items: center; }
+.price .extra > * { line-height: 1; }
+.price .extra .x { align-self: auto; padding: 7px 12px 6px; }
+.price .extra .d { padding-top: 3px; }
