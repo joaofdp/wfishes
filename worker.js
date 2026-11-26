@@ -25,6 +25,12 @@ const PRIVATE = {
     sha256: 'ff8e4e4b4ba8245b2530ca41dbf396c643b3548d80dd4be5c934bf0701039dc9', secret: 'LONGI_PASSWORD', cookie: 'wf_longi',
     lang: 'pt-BR', title: 'weird fishes x longi', h1: 'longi, 2027', line: 'uma proposta da weird fishes para a longi.',
     placeholder: 'senha', button: 'abrir', wrong: 'essa não é a senha. tenta de novo?', date: 'Novembro, 2026',
+    // the picture is made by the longi project (proposal/share/share.html, tools/render-share.cjs), from the colossus card
+    share: {
+      title: 'longi: uma proposta para 2027', description: 'uma proposta da weird fishes para a longi.',
+      image: 'https://wfishes.com/share/longi.jpg',
+      alt: 'A palavra longi em preto, grande, sobre creme, embaixo de três fotos da proposta: um homem apertando o botão do dispositivo no braço, entre duas mulheres que usam o dispositivo.',
+    },
   },
 };
 const quiet = { 'cache-control': 'no-store', 'x-robots-tag': 'noindex, nofollow' };
