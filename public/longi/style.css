@@ -608,3 +608,9 @@ a { color: var(--accent); text-decoration: underline; text-underline-offset: 4px
 .gal-strip img { display: block; height: 100%; width: auto; border-radius: 6px; background: #e6e2da; }
 @media (max-width: 700px) { .gal-win { width: 100vw; height: 100%; border-radius: 0; } .gal-bar span:not(.gal-n) { display: none; } }
 .gal-strip img { aspect-ratio: auto; }
+/* includes, v19: a third column says what is not in the fee */
+.inc .cols2 { grid-template-columns: 1fr 1fr 1fr; gap: 56px; }
+.inc .apart h3 { color: var(--l-terra); }
+.inc .apart li { color: var(--grey); }
+.inc .apart li b { color: var(--ink); font-weight: 700; }
+.price .terms b { font-weight: 700; }
