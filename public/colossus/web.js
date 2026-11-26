@@ -7,12 +7,13 @@
 
   // controls, outside the page
   const ui = document.createElement('nav');
-  ui.className = 'ui';
-  ui.innerHTML = '<span class="hint">click, or use ← →</span><button class="prev" aria-label="back">←</button><span class="n"></span><button class="next" aria-label="next">→</button>';
+  // their classes start with wf- (web.css): the pages use names like .bar and .next for their own things
+  ui.className = 'wf-ui';
+  ui.innerHTML = '<span class="wf-hint">click, or use ← →</span><button class="wf-prev" aria-label="back">←</button><span class="wf-n"></span><button class="wf-next" aria-label="next">→</button>';
   document.body.append(ui);
-  const bar = document.createElement('div'); bar.className = 'bar'; document.body.append(bar);
-  const turn = document.createElement('p'); turn.className = 'turn'; turn.textContent = 'best on a laptop, or with the phone sideways'; document.body.append(turn);
-  const hint = ui.querySelector('.hint');
+  const bar = document.createElement('div'); bar.className = 'wf-progress'; document.body.append(bar);
+  const turn = document.createElement('p'); turn.className = 'wf-turn'; turn.textContent = 'best on a laptop, or with the phone sideways'; document.body.append(turn);
+  const hint = ui.querySelector('.wf-hint');
 
   function fit() {
     const s = Math.min(innerWidth / 1920, innerHeight / 1080);
@@ -69,9 +70,9 @@
     sl.querySelectorAll('.cam').forEach(c => aim(c, k));
     lazy(i);
     history.replaceState(null, '', `#${i + 1}.${k}`);
-    ui.querySelector('.n').textContent = `${i + 1} / ${slides.length}`;
-    ui.querySelector('.prev').disabled = i === 0 && k === 0;
-    ui.querySelector('.next').disabled = i === slides.length - 1;
+    ui.querySelector('.wf-n').textContent = `${i + 1} / ${slides.length}`;
+    ui.querySelector('.wf-prev').disabled = i === 0 && k === 0;
+    ui.querySelector('.wf-next').disabled = i === slides.length - 1;
     bar.style.width = (100 * (i + 1) / slides.length) + '%';
     document.title = `${sl.dataset.title || 'colossus'}: weird fishes x colossus`;
   }
@@ -86,7 +87,7 @@
     };
     requestAnimationFrame(tick);
   }
-  function moved() { hint.classList.add('gone'); }
+  function moved() { hint.classList.add('wf-gone'); }
   function next() { moved(); step < stepsOf(cur) ? show(cur, step + 1) : cur < slides.length - 1 && show(cur + 1, 0); }
   function prev() { moved(); step > 0 ? show(cur, step - 1) : cur > 0 && show(cur - 1, stepsOf(cur - 1)); }
 
@@ -99,8 +100,8 @@
     else if (k === 'End') show(slides.length - 1, 0);
     else if (k === 'f' && document.documentElement.requestFullscreen) document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen();
   });
-  ui.querySelector('.next').addEventListener('click', next);
-  ui.querySelector('.prev').addEventListener('click', prev);
+  ui.querySelector('.wf-next').addEventListener('click', next);
+  ui.querySelector('.wf-prev').addEventListener('click', prev);
   stage.addEventListener('click', e => { if (!e.target.closest('a')) next(); });
   let x0 = null, y0 = null;
   addEventListener('touchstart', e => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, { passive: true });
