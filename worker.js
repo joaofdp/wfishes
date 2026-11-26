@@ -1,13 +1,25 @@
-// this worker runs for two things only (wrangler.jsonc: run_worker_first): the videos, and the private /colossus proposal.
+// this worker runs for three things only (wrangler.jsonc: run_worker_first): the videos and the two private proposals,
+// /colossus and /longi.
 //
 // the videos: cloudflare's static assets answer a Range request with the whole file and a 200. iphones ask for byte ranges
 // before they play a video and can refuse that 200 (webkit bug 284443), so this worker answers a range with a real 206.
 //
-// /colossus: a password page, then a cookie for 30 days. the password's sha-256 is below; a PASSWORD secret set on the
-// worker in cloudflare overrides it. the proposal's files are built into public/colossus by the colossus project
-// (deck/tools/build-site.cjs).
-const COLOSSUS_SHA256 = 'cc7e751338952cf8aff2563cb8cd715b731f41885ac9a81955bb93a452c3ef0e';
-const COOKIE = 'wf_colossus';
+// the proposals: a password page, then a cookie for 30 days. each password's sha-256 is below; a secret set on the worker
+// in cloudflare overrides it (PASSWORD for /colossus, LONGI_PASSWORD for /longi). /colossus is built into public/colossus
+// by the colossus project (deck/tools/build-site.cjs); /longi is copied into public/longi by the longi project
+// (tools/build-site.py).
+const PRIVATE = {
+  colossus: {
+    sha256: 'cc7e751338952cf8aff2563cb8cd715b731f41885ac9a81955bb93a452c3ef0e', secret: 'PASSWORD', cookie: 'wf_colossus',
+    lang: 'en', title: 'weird fishes x colossus', h1: 'colossus, 2027', line: 'a proposal from weird fishes, for the colossus team.',
+    placeholder: 'password', button: 'open', wrong: 'that’s not the password. try again?', date: 'November, 2026',
+  },
+  longi: {
+    sha256: 'ff8e4e4b4ba8245b2530ca41dbf396c643b3548d80dd4be5c934bf0701039dc9', secret: 'LONGI_PASSWORD', cookie: 'wf_longi',
+    lang: 'pt-BR', title: 'weird fishes x longi', h1: 'longi, 2027', line: 'uma proposta da weird fishes para a longi.',
+    placeholder: 'senha', button: 'abrir', wrong: 'essa não é a senha. tenta de novo?', date: 'Novembro, 2026',
+  },
+};
 const quiet = { 'cache-control': 'no-store', 'x-robots-tag': 'noindex, nofollow' };
 
 async function sha256(text) {
@@ -20,10 +32,10 @@ function same(a, b) {
   for (let i = 0; i < a.length; i++) d |= a.charCodeAt(i) ^ b.charCodeAt(i);
   return d === 0;
 }
-function gate(wrong) {
+function gate(name, p, wrong) {
   return new Response(`<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex, nofollow"><title>weird fishes x colossus</title>
+<html lang="${p.lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow"><title>${p.title}</title>
 <style>
 @font-face { font-family: "Helvetica Neue"; font-weight: 400; src: local("Helvetica Neue"), url("/fonts/helvetica-neue-400.woff2") format("woff2"); }
 html, body { margin: 0; height: 100%; background: #fff; color: #141414; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
@@ -39,31 +51,32 @@ footer { position: fixed; left: 0; right: 0; bottom: 24px; text-align: center; f
 footer span + span { margin-left: 18px; }
 </style></head>
 <body><main>
-<h1>colossus, 2027</h1>
-<p>a proposal from weird fishes, for the colossus team.</p>
-<form method="post" action="/colossus/"><input type="password" name="password" placeholder="password" aria-label="password" autocomplete="current-password" autofocus required><button>open</button></form>
-${wrong ? '<p class="no">that’s not the password. try again?</p>' : ''}
-</main><footer><span>Weird Fishes Atelier</span><span>November, 2026</span></footer></body></html>`,
+<h1>${p.h1}</h1>
+<p>${p.line}</p>
+<form method="post" action="/${name}/"><input type="password" name="password" placeholder="${p.placeholder}" aria-label="${p.placeholder}" autocomplete="current-password" autofocus required><button>${p.button}</button></form>
+${wrong ? `<p class="no">${p.wrong}</p>` : ''}
+</main><footer><span>Weird Fishes Atelier</span><span>${p.date}</span></footer></body></html>`,
   { status: 401, headers: { 'content-type': 'text/html; charset=utf-8', ...quiet } });
 }
 
-async function colossus(request, env) {
-  const want = env.PASSWORD ? await sha256(env.PASSWORD) : COLOSSUS_SHA256;
+async function locked(name, request, env) {
+  const p = PRIVATE[name];
+  const want = env[p.secret] ? await sha256(env[p.secret]) : p.sha256;
   if (request.method === 'POST') {
     const form = await request.formData().catch(() => null);
     const tried = form ? String(form.get('password') || '') : '';
-    if (!same(await sha256(tried), want)) return gate(true);
+    if (!same(await sha256(tried), want)) return gate(name, p, true);
     return new Response(null, { status: 303, headers: {
-      location: '/colossus/', ...quiet,
-      'set-cookie': `${COOKIE}=${encodeURIComponent(tried)}; Path=/colossus; Max-Age=2592000; HttpOnly; Secure; SameSite=Lax`,
+      location: `/${name}/`, ...quiet,
+      'set-cookie': `${p.cookie}=${encodeURIComponent(tried)}; Path=/${name}; Max-Age=2592000; HttpOnly; Secure; SameSite=Lax`,
     } });
   }
-  const m = (request.headers.get('Cookie') || '').match(new RegExp('(?:^|;\\s*)' + COOKIE + '=([^;]+)'));
+  const m = (request.headers.get('Cookie') || '').match(new RegExp('(?:^|;\\s*)' + p.cookie + '=([^;]+)'));
   let held = '';
   try { held = m ? decodeURIComponent(m[1]) : ''; } catch { held = ''; }
   if (!held || !same(await sha256(held), want)) {
     const page = (request.headers.get('accept') || '').includes('text/html');
-    return page ? gate(false) : new Response('locked', { status: 401, headers: quiet });
+    return page ? gate(name, p, false) : new Response('locked', { status: 401, headers: quiet });
   }
   const res = await env.ASSETS.fetch(request);
   const headers = new Headers(res.headers);
@@ -75,7 +88,8 @@ async function colossus(request, env) {
 export default {
   async fetch(request, env) {
     const path = new URL(request.url).pathname;
-    if (path === '/colossus' || path.startsWith('/colossus/')) return colossus(request, env);
+    const top = path.split('/')[1];
+    if (Object.hasOwn(PRIVATE, top) && (path === '/' + top || path.startsWith('/' + top + '/'))) return locked(top, request, env);
 
     const range = request.headers.get('Range');
     const plain = new Headers(request.headers); plain.delete('Range');

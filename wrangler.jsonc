@@ -8,12 +8,12 @@
   // `npx wrangler deploy` runs this first, so Cloudflare needs no build command in the dashboard
   "build": { "command": "npm run build" },
   // the site is static. the only code is worker.js, which runs for the videos (so iphones get byte ranges, 206)
-  // and for /colossus, the private proposal behind a password
+  // and for /colossus and /longi, the private proposals behind a password
   "main": "worker.js",
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS",
-    "run_worker_first": ["/media/*.mp4", "/colossus", "/colossus/*"],
+    "run_worker_first": ["/media/*.mp4", "/colossus", "/colossus/*", "/longi", "/longi/*"],
     "html_handling": "auto-trailing-slash",
     "not_found_handling": "404-page"
   }
