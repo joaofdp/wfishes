@@ -13,6 +13,13 @@ const PRIVATE = {
     sha256: 'cc7e751338952cf8aff2563cb8cd715b731f41885ac9a81955bb93a452c3ef0e', secret: 'PASSWORD', cookie: 'wf_colossus',
     lang: 'en', title: 'weird fishes x colossus', h1: 'colossus, 2027', line: 'a proposal from weird fishes, for the colossus team.',
     placeholder: 'password', button: 'open', wrong: 'that’s not the password. try again?', date: 'November, 2026',
+    // the link preview (see shareTags). the picture is made by the colossus project (deck/share/share.html,
+    // tools/render-share.cjs) in the style of the work pages' previews
+    share: {
+      title: 'colossus: a proposal for 2027', description: 'a proposal from weird fishes, for the colossus team.',
+      image: 'https://wfishes.com/share/colossus.jpg',
+      alt: 'The word colossus in large black type on cream, under three proposed Colossus covers: Shyam Sankar in front, Sarah Guo and 3G Capital behind.',
+    },
   },
   longi: {
     sha256: 'ff8e4e4b4ba8245b2530ca41dbf396c643b3548d80dd4be5c934bf0701039dc9', secret: 'LONGI_PASSWORD', cookie: 'wf_longi',
@@ -32,10 +39,27 @@ function same(a, b) {
   for (let i = 0; i < a.length; i++) d |= a.charCodeAt(i) ^ b.charCodeAt(i);
   return d === 0;
 }
+// the link preview WhatsApp, iMessage and Slack show for a proposal's address, for a proposal that has a share entry.
+// the password page carries it and answers 200 (the apps skip a page that answers 401); the picture sits outside the
+// locked folder, in /share like the work pages' previews, so the apps can fetch it without the password.
+function shareTags(name, s) {
+  return `
+<meta name="description" content="${s.description}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="weird fishes">
+<meta property="og:url" content="https://wfishes.com/${name}">
+<meta property="og:title" content="${s.title}">
+<meta property="og:description" content="${s.description}">
+<meta property="og:image" content="${s.image}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="${s.alt}">
+<meta name="twitter:card" content="summary_large_image">`;
+}
 function gate(name, p, wrong) {
   return new Response(`<!doctype html>
 <html lang="${p.lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex, nofollow"><title>${p.title}</title>
+<meta name="robots" content="noindex, nofollow"><title>${p.title}</title>${p.share ? shareTags(name, p.share) : ''}
 <style>
 @font-face { font-family: "Helvetica Neue"; font-weight: 400; src: local("Helvetica Neue"), url("/fonts/helvetica-neue-400.woff2") format("woff2"); }
 html, body { margin: 0; height: 100%; background: #fff; color: #141414; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
@@ -56,7 +80,7 @@ footer span + span { margin-left: 18px; }
 <form method="post" action="/${name}/"><input type="password" name="password" placeholder="${p.placeholder}" aria-label="${p.placeholder}" autocomplete="current-password" autofocus required><button>${p.button}</button></form>
 ${wrong ? `<p class="no">${p.wrong}</p>` : ''}
 </main><footer><span>Weird Fishes Atelier</span><span>${p.date}</span></footer></body></html>`,
-  { status: 401, headers: { 'content-type': 'text/html; charset=utf-8', ...quiet } });
+  { status: wrong ? 401 : 200, headers: { 'content-type': 'text/html; charset=utf-8', ...quiet } });
 }
 
 async function locked(name, request, env) {
@@ -75,7 +99,10 @@ async function locked(name, request, env) {
   let held = '';
   try { held = m ? decodeURIComponent(m[1]) : ''; } catch { held = ''; }
   if (!held || !same(await sha256(held), want)) {
-    const page = (request.headers.get('accept') || '').includes('text/html');
+    // the address itself always gets the password page (preview bots don't all ask for html); the files stay locked
+    const path = new URL(request.url).pathname;
+    const page = [`/${name}`, `/${name}/`, `/${name}/index.html`].includes(path)
+      || (request.headers.get('accept') || '').includes('text/html');
     return page ? gate(name, p, false) : new Response('locked', { status: 401, headers: quiet });
   }
   const res = await env.ASSETS.fetch(request);
